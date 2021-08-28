@@ -6,7 +6,7 @@ const _version = 1
 const _state = () => ({
   version: _version,
   // layout
-  locale: `${navigator.language}`.startsWith('zh') ? 'zh-CN' : 'en',
+  locale: 'zh-CN',
   cell_display1: 'dps',
   cell_display2: '',
   // show_critbar: true, // deprecated on version 1
