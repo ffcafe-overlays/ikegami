@@ -64,7 +64,7 @@ module.exports = {
         test: /\.svg$/,
         loader: 'url-loader'
       }, {
-        test: /\.(png|jpg|gif|[ot]tf|woff2?)$/,
+        test: /\.(png|jpg|gif|[ot]tf|woff2?|eot)$/,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]',
@@ -93,7 +93,7 @@ module.exports = {
   performance: {
     hints: false
   },
-  devtool: 'cheap-module-eval-source-map',
+  devtool: process.env.NODE_ENV === 'production' ? '' : 'cheap-module-eval-source-map',
   plugins: [
 //  new BundleAnalyzerPlugin(),
     new webpack.EnvironmentPlugin(['NODE_ENV']),
