@@ -91,6 +91,7 @@ export default {
 
 <style lang="sass">
 
+@import styles/lato
 @import styles/reset
 @import styles/index
 @import styles/window
