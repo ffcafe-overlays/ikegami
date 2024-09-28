@@ -5,7 +5,7 @@
   "description": "experimental horizontal FFXIV Miniparse overlay",
   "type": "module",
   "dependencies": {
-    "vue": "2.x",
+    "vue": "2",
     "vue-i18n": "^8.25.0",
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.5.4"
