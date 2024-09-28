@@ -12,13 +12,22 @@
       :label="$t('settings.appearance.theme')"
       :empty="$t('settings.appearance.themeDefault')"
       :selections="new Map([
-        [ 'minimal', $t('settings.appearance.themeMinimal') ],
-        [ 'tokyu', $t('settings.appearance.themeTokyu') ],
-        [ 'keikyu', $t('settings.appearance.themeKeikyu') ]
+        [ 'minimal', 'Minimal' ],
+        [ 'korail-tgis', 'Korail TGIS' ],
+        [ 'tokyu', 'Tōkyū Ikegami Line' ],
+        [ 'keikyu', 'Keikyū Line' ]
       ])"
       v-model="theme" />
     <dropdown
-      :label="$t('settings.appearance.colorScheme')"
+      label="Cell Background"
+      :selections="new Map([
+        [ 'translucent', 'Translucent' ],
+        [ 'opaque', 'Opaque' ],
+        [ 'tinted', 'Tinted' ]
+      ])"
+      v-model="cell_background" />
+    <dropdown
+      label="Color Scheme"
       :selections="new Map([
         [ 'kagerou-material', $t('settings.appearance.colorSchemeKagerouMaterial') ],
         [ 'mopimopi-default', $t('settings.appearance.colorSchemeMopimopiDefault') ],
@@ -59,6 +68,7 @@ export default {
     ...mapStateDynamically('settings', [
       'ui_scale',
       'theme',
+      'cell_background',
       'color_scheme',
       'job_icons',
       'blur_name'

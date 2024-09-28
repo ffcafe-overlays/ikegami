@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import { ALLOWED_NARROW_CELL_VALUES } from '../lib/const'
 
-const _version = 1
+const _version = 3
 
 const _state = () => ({
   version: _version,
   // layout
   locale: 'zh-CN',
+  // cell_display = critcounts_wo_direct: deprecated on version 2
   cell_display1: 'dps',
   cell_display2: '',
   // show_critbar: true, // deprecated on version 1
@@ -22,6 +23,7 @@ const _state = () => ({
   theme: '', // TODO: reconsider
   color_scheme: 'kagerou-material',
   job_icons: 'default',
+  cell_background: 'translucent',
   blur_name: false,
   // appearance: layout
   list_order: 'asc',
@@ -67,6 +69,16 @@ export default {
       if(state.version < 1 || state.version == null) {
         delete state.show_critbar
       }
+      if(state.version < 2 || state.version == null) {
+        if(state.cell_display1 === 'critcounts_wo_direct') {
+          state.cell_display1 = 'critcounts'
+        }
+        if(state.cell_display2 === 'critcounts_wo_direct') {
+          state.cell_display2 = 'critcounts'
+        }
+      }
+
+      state.version = _version
     }
   },
   getters: {

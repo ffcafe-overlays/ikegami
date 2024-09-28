@@ -8,7 +8,9 @@
       'scheme-' + (color_scheme || 'kagerou-material'),
       'icon-' + (job_icons || 'default'),
       'order-by-' + (list_order || 'asc'),
-      'align-' + (list_align || 'center'), {
+      'align-' + (list_align || 'center'),
+      'cell-' + (cell_background || 'translucent'), {
+        active,
         'hide-name': hide_name,
         'hide-job-icons': hide_job_icon,
         'hide-handle': hide_handle,
@@ -17,7 +19,8 @@
         'layout-mode': layout_mode,
         'single-value': !cell_display2,
         'singleline': cell_display2? force_singleline_allowed : true,
-        'force-singleline-allowed': force_singleline_allowed
+        'force-singleline-allowed': force_singleline_allowed,
+        'has-subticker-above-edge': tickers_dps_crit === 'above' || tickers_healer_pct === 'above'
       }
     ]">
     <userlist />
@@ -64,7 +67,13 @@ export default {
       'blur_name',
       'list_order',
       'list_align',
-      'cell_display2'
+      'cell_display2',
+      'cell_background',
+      'tickers_dps_crit',
+      'tickers_healer_pct'
+    ]),
+    ...mapState('encounter', [
+      'active'
     ]),
     ...mapState('ui', [
       'opened_window',

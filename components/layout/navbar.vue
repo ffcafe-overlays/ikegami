@@ -135,6 +135,9 @@ export default {
   font-size: $nav-text-size
   text-shadow: $shadow-text-background
 
+  @include if-enabled('cell-opaque')
+    background-color: adjust-color($cell-background, $alpha: 1)
+
   @include if-enabled('align-left')
     margin-left: 0
 
@@ -334,5 +337,98 @@ export default {
 
   @include if-enabled('theme-minimal.align-left', 'theme-minimal.align-right')
     margin-top: -1 * $nav-height
+
+  @include if-enabled('theme-korail-tgis')
+    background: #00f
+    text-shadow: none
+
+    border: 1px solid #fff
+
+    &::before, .location, .info, .dropdown
+      font-family: Dotum, 'MS PGothic', sans-serif
+      letter-spacing: -0.083em
+
+    .location
+      display: flex
+
+
+      flex-grow: 1
+      flex-shrink: 0
+      flex-basis: 0
+      overflow: hidden
+
+      mask-image: none
+      -webkit-mask-image: none
+
+      > time
+        color: inherit
+        margin-right: 0.5rem
+
+      > span
+        flex-grow: 1
+        flex-shrink: 0
+        flex-basis: 0
+        overflow: hidden
+        text-align: center
+        text-overflow: clip
+
+    .info
+      padding-right: 0.5rem
+
+      .rdps::before
+        content: '　'
+
+    .location, .info
+      position: relative
+      padding-left: 2.5rem
+
+      &::before
+        display: block
+        content: ''
+
+        position: absolute
+        top: 0
+        bottom: 0
+        left: 1.2rem
+        margin: auto
+
+        width: 1.5px
+        height: 100%
+
+        background: white
+        transform: skewX(-56.25deg)
+        transform-origin: center
+
+    .buttons
+      margin: 0
+
+      > .button
+        position: absolute
+        right: 0
+        width: 4rem
+        opacity: 0
+
+    .dropdown
+      background: none
+
+      > li
+        margin-top: 1px
+        border: 1px solid #fff
+        background: #00f
+
+        text-align: center
+
+    &::before
+      padding: 0 0 0 2.25rem
+      content: '운전상태'
+
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAWBAMAAAAoU0G7AAAABlBMVEUAAP////973JksAAAAVUlEQVQoz12PURYAIQgC4QZ4/8uWD3Vt/bAmFBP/0IYIgZH5Rl6iAQV+r2osRfYKFTCd2ux2UMTA5/wA1UMNmJmZuAEP9J/daOGe5VDL2EBrM0sDwgHWxwnAe5IljgAAAABJRU5ErkJggg==')
+      background-size: 1.5rem 1.375rem
+      background-repeat: no-repeat
+      background-position: 0.5rem center
+
+  @include if-enabled('theme-korail-tgis.active')
+    &::before
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAWBAMAAAAoU0G7AAAABlBMVEUAAP////973JksAAAAUklEQVQoz3WPQQ7AIAgElx8w//9spYBik3IwDg6S1bd8AriMOFfFhQYVZL/sHsLbusDQDzC1ADvaAL1WrVlPF9iBXBtdry86jNhABkqNEWcHdT1GaAh6qM12ZAAAAABJRU5ErkJggg==')
 
 </style>

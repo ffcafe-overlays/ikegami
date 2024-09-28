@@ -40,7 +40,7 @@ const PET_MAPPING = {
 const VALID_PLAYER_JOBS = [
   'GLA', 'GLD', 'MRD', 'PUG', 'PGL', 'LNC', 'ROG', 'ARC', 'THM', 'ACN', 'CNJ',
   'PLD', 'WAR', 'MNK', 'DRG', 'NIN', 'BRD', 'BLM', 'SMN', 'SCH', 'WHM', 'DRK',
-  'MCH', 'AST', 'SAM', 'RDM', 'BLU', 'GNB', 'DNC',
+  'MCH', 'AST', 'SAM', 'RDM', 'BLU', 'GNB', 'DNC', 'RPR', 'SGE',
   'CRP', 'BSM', 'ARM', 'GSM', 'LTW', 'WVR', 'ALC', 'CUL', 'MIN', 'BTN', 'FSH'
 ]
 
@@ -217,8 +217,7 @@ export default {
         o.ch -= o.cdh
         o.dh -= o.cdh
 
-        o.critcounts = [ o.dh, o.ch, o.cdh ].join('/')
-        o.critcounts_wo_direct = [ o.ch, o.cdh ].join('/')
+        o.critcounts = [ o.dh, o.ch, o.cdh ]
 
         o.ohpct = o.oh / o.healed || 0
       }
@@ -229,11 +228,14 @@ export default {
       state.tophps = Math.max.apply(null, players.map(_ => _.hps))
 
       Vue.set(state, 'combatants', players)
+    },
+    setActive(state, isActive) {
+      state.active = isActive
     }
   },
   actions: {
     // Listeners
-    update({ commit, rootGetters }, { Encounter, Combatant }) {
+    update({ commit, rootGetters }, { Encounter, Combatant, isActive }) {
       if(!Encounter || Encounter.hits < 1) {
         return
       }
@@ -242,6 +244,7 @@ export default {
         combatants: Combatant,
         playerNames: rootGetters['settings/usernames']
       })
+      commit('setActive', isActive)
     },
     logline({ commit }, { type, payload }) {
       switch(type) {

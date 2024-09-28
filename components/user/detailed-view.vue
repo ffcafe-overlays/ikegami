@@ -28,8 +28,8 @@
         title="Swings/GC"
         :value="c.swings / e.duration * 2.5 | decimal" /> -->
       <row
-        :title="$t('stats.critcounts')"
-        :value="c.critcounts"
+        title="D/!/!!!"
+        :value="c.critcounts.join('/')"
         v-if="!reduced" />
       <div class="row">
         <graph type="dps-crit" :combatant="c" />
@@ -110,9 +110,8 @@ export default {
   flex-direction: column
 
   width: $details-width
-  max-height: calc(100vh - #{$cell-line-height * 2} - 1rem)
 
-  margin-left: ($details-width - $cell-width) / -2
+  margin-left: ($details-width - $cell-width) * -0.5
   padding: 0.375rem
 
   background-color: $details-background

@@ -22,7 +22,7 @@ const i18n = createI18n()
 const vm = window.rootvm = new Vue({
   components: { index },
   el: '#vue-root',
-  template: '<index />',
+  render: h => h(index),
   store,
   watch: {
     ['$store.state.settings.ui_scale']() {

@@ -11,10 +11,10 @@
       </label>
       <var class="values">
         <span :class="[ 'l', { zero: combatant[cell_display1] < 0.02 } ]">
-          {{ combatant[cell_display1] | f(cell_display1, show_decimals) }}
+          {{ v(cell_display1, show_decimals) }}
         </span>
         <span class="r" v-if="cell_display2">
-          {{ combatant[cell_display2] | f(cell_display2, show_decimals) }}
+          {{ v(cell_display2, show_decimals) }}
         </span>
       </var>
       <div class="tickers">
@@ -55,7 +55,29 @@ export default {
   methods: {
     toggleBlur() {
       this.$store.commit('settings/toggle', 'blur_name')
-    }
+    },
+    v(key, show_decimals) {
+      let value = this.combatant[key]
+
+      switch(key) {
+        case 'dps':
+        case 'dps1m':
+        case 'hps':
+          return filters.decimal(value, show_decimals)
+
+        case 'ohpct':
+          return filters.pct(value, 0)
+
+        case 'critcounts':
+          return value.join('/')
+        case 'critpcts':
+          value = this.combatant.critcounts
+          return value.map(_ => (_ / this.combatant.swings * 100).toFixed(0)).join('/') + '%'
+
+        default:
+          return value
+      }
+    },
   },
   computed: {
     ...mapState('settings', [
@@ -72,15 +94,6 @@ export default {
     }
   },
   filters: {
-    f(value, key, show_decimals) {
-      if(key === 'dps' || key === 'dps1m' || key === 'hps') {
-        return filters.decimal(value, show_decimals)
-      } else if(key === 'ohpct') {
-        return filters.pct(value, 0)
-      } else {
-        return value
-      }
-    },
     name(value, type) {
       let name = value.split(' ')
       let flag = +type
@@ -112,7 +125,7 @@ export default {
 
   // hitbox
   background-color: rgba(0, 0, 0, 0.005)
-  box-shadow: 0 0 0 0.5rem rgba(0, 0, 0, 0.005), 0 $cell-line-height * -1 0 $cell-background inset
+  box-shadow: 0 0 0 0.5rem rgba(0, 0, 0, 0.005) // , 0 $cell-line-height * -1 0 $cell-background inset
 
   word-break: keep-all
   white-space: nowrap
@@ -133,6 +146,10 @@ export default {
 
     &:hover ~ .c-details
       opacity: 1
+
+    #root.layout-mode & ~ .c-details
+      opacity: 0.5
+      border-bottom: $_1px solid red
 
     &:last-child
       margin-right: 0
@@ -255,7 +272,7 @@ export default {
     &:hover
       opacity: 1
 
-  $inner-graph-height: 0.25rem / 2
+  $inner-graph-height: 0.25rem * 0.5
 
   .tickers
     display: flex
@@ -270,6 +287,15 @@ export default {
 
     height: $cell-line-height
     z-index: -1
+
+    background-color: $cell-background
+
+    @include if-enabled('cell-opaque')
+      background-color: adjust-color($cell-background, $alpha: 1)
+
+    @include if-enabled('cell-tinted')
+      background-color: transparent
+      box-shadow: 0 0 8rem -4rem var(--job-color, var(--job-gauge-default)) inset, 0 0 0 1rem #1116 inset
 
     .ticker, .c-details-graph
       position: relative
@@ -301,14 +327,16 @@ export default {
         &.top, &.bottom
           position: absolute
 
-    .ticker.main
-      align-self: flex-start
-      flex-grow: 100
+    .ticker
+      background: var(--job-color, var(--job-gauge-default))
+
+      &.main
+        align-self: flex-start
+        flex-grow: 100
 
     .c-details-graph
       width: calc(100% + #{$_1px})
-      // TODO: redefine ↓
-      height: 0.125rem
+      height: $cell-subticker-height
       z-index: $z-cell + 1
 
       &.dps-crit
